@@ -14,7 +14,7 @@ module Message
   def money_message1(player)
     puts <<~EOS
 
-    現在の所持金は[¥#{player.money}]です
+    現在の所持金は[＄#{player.money}]です
     賭け金を入力してください
     EOS
   end
@@ -23,8 +23,8 @@ module Message
   def money_message2
     puts <<~EOS
       *=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*
-      賭け金 : ¥#{@bet}
-      残金 : ¥#{@remaining_money}
+      賭け金 : ＄#{@bet}
+      残金 : ＄#{@remaining_money}
       *=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*
       EOS
   end
@@ -87,7 +87,7 @@ module Message
 
   # Messageモジュール11
   def game_message7
-    puts "それではカードをめくります"
+    puts "\nそれではカードをめくります\n"
   end
 
   # Messageモジュール13
@@ -107,27 +107,39 @@ module Message
 
   # Messageモジュール15
   def game_message10
-    puts "\n高いのであなたの勝ちです"
+    puts "\n高いのであなたの勝ちです!"
   end
 
   # Messageモジュール16,21
   def money_message4
-    puts "¥#{@paid}を手に入れました。"
+    puts "[＄#{@paid}]を手に入れました。"
   end
 
   # Messageモジュール17
   def game_message11
-    puts "\n低いのであなたの負けです。ゲームを終了します。"
+    puts <<~EOS
+
+    低いのであなたの負けです
+    [＄#{@bet}]を失いました
+
+    ゲームを終了します
+    EOS
   end
 
   # Messageモジュール18,22
   def game_message12
-    puts "\n引き分け"
+    puts "\n引き分けです。賭け金が戻されます"
   end
 
   # Messageモジュール19
   def game_message13
-    puts "\n高いのであなたの負けです。ゲームを終了します"
+    puts <<~EOS
+
+    高いのであなたの負けです
+    [＄#{@bet}]を失いました
+
+    ゲームを終了します
+    EOS
   end
 
   # Messageモジュール20
@@ -139,10 +151,10 @@ module Message
   def win_message1
     puts <<~EOS
 
-        現在の所持金 : ¥#{@remaining_money}
+        現在の所持金 : ＄#{@remaining_money}
         ---------------------------------
 
-          1.ゲームを続ける 2.止める
+          1.ゲームを続ける 2.やめる
     EOS
   end
 
@@ -153,7 +165,13 @@ module Message
 
   # Messageモジュール25
   def win_message3
-    puts "止めるですね。ゲームを終了します"
+    puts <<~EOS
+    やめるですね。
+
+    あなたは[＄#{@remaining_money}]を手に入れました。
+
+    ゲームを終了します
+    EOS
   end
 
   # Messageモジュール26
@@ -169,7 +187,7 @@ module Message
   # Messageモジュール12
   def money_message5
     puts <<~EOS
-    所持金が[¥0]になりました。
+    所持金が[＄0]になりました。
 
     *=*=*=*=*=*=*=*=*=*=*
         ゲームオーバー

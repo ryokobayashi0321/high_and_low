@@ -13,40 +13,40 @@ class HighAndLow
     # Messageモジュール1
     start_message
 
+    # <deck生成>
+    build_deck
+
+    # <master生成>
+    build_master
+
+    # <playerの生成>
+    build_player
+
+    # <所持金の表示>、Messageモジュール2
+    money_message1(@player)
+
+    # <賭け金を提示する>
+    present_stake(@player)
+
+    # Messageモジュール5
+    game_message1
+
+    # <1枚目のカード引くメソッド>
+    @master.first_draw_card(@deck)
+
+    # <1枚目のカードを見せる>
+    @master.first_show_card
+
+    # Messageモジュール6
+    game_message2
+
+    # <2枚目のカードを引くメソッド>
+    @master.next_draw_card(@deck)
+
+    # Messageモジュール7
+    game_message3
+
     while true
-      # <deck生成>
-      build_deck
-
-      # <master生成>
-      build_master
-
-      # <playerの生成>
-      build_player
-
-      # <所持金の表示>、Messageモジュール2
-      money_message1(@player)
-
-      # <賭け金を提示する>
-      present_stake(@player)
-
-      # Messageモジュール5
-      game_message1
-
-      # <1枚目のカード引くメソッド>
-      @master.first_draw_card(@deck)
-
-      # <1枚目のカードを見せる>
-      @master.first_show_card
-
-      # Messageモジュール6
-      game_message2
-
-      # <2枚目のカードを引くメソッド>
-      @master.next_draw_card(@deck)
-
-      # Messageモジュール7
-      game_message3
-
       # <highかlowの選択>
       select_num = gets.to_i
       if select_num == 1

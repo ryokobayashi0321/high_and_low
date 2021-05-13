@@ -16,7 +16,7 @@ class Master
 
   # 1枚目のカードを見せる
   def first_show_card
-    puts "---------stage-----------"
+    puts "\n---------stage-----------"
     @first_stages.each.with_index(1) do |first_card, i|
       puts "#{i}枚目 : #{first_card.show}"
 
