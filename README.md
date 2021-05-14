@@ -2,6 +2,10 @@
 
 - Rubyのみで自作アプリ`High and Low`ゲームを作成しました。
 
+## 作成目的
+- ruby言語を基礎的な部分から理解していこうと考えたため。
+- 実際に作りながら文法を使ったり、ロジックを組み立てていった方が効率よく学べると考えたため。
+
 ## インストール方法
 ```
 $ git colne https://github.com/ryokobayashi0321/high_and_low.git
