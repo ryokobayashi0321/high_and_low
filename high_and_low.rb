@@ -150,7 +150,7 @@ class HighAndLow
       elsif @select_num == HIGH_NUMBER && @first_point > @next_point
         # Messageモジュール16(lose)
         game_message11
-        game_over
+        next_action
 
       elsif @select_num == HIGH_NUMBER && @first_point == @next_point
         # Messageモジュール17(draw)
@@ -165,7 +165,7 @@ class HighAndLow
     if @select_num == LOW_NUMBER && @next_point > @first_point
       # Messageモジュール18(lose)
       game_message13
-      game_over
+      next_action
 
     elsif @select_num == LOW_NUMBER && @first_point > @next_point
       # Messageモジュール19(win)
@@ -184,14 +184,19 @@ class HighAndLow
     end
   end
 
-  # <勝った場合>
+  # <次の行動>
   def next_action
     while true
       # Messageモジュール22
       next_action_message1
-
       new_game_num = gets.to_i
-      if new_game_num == SELECT_NEW_GAME
+
+      # <所持金¥0の条件分岐>、Messageモジュール26
+      if @player.money <= NO_MONEY
+        money_message5
+        break
+
+      elsif new_game_num == SELECT_NEW_GAME
         # Messageモジュール23
         next_action_message2
         start
@@ -209,12 +214,6 @@ class HighAndLow
       end
     end
   end
-
-  # <所持金¥0の条件分岐>、Messageモジュール26
-  def game_over
-    money_message5 if @player.money <= NO_MONEY
-  end
-
 
   # <カードの数字を表示>
   def point(card)
