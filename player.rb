@@ -1,5 +1,7 @@
 class Player
-  @@money = 100000
+  MONEY_IN_POSSESSION = 100000
+
+  @@money = MONEY_IN_POSSESSION
 
   # ゲッター処理
   def money

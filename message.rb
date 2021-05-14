@@ -90,14 +90,12 @@ module Message
     puts "\nそれではカードをめくります\n"
   end
 
-  # Messageモジュール13
+  # Messageモジュール12
   def game_message8
     puts "カードの数字は[#{@first_point}]です"
   end
 
-
-
-  # Messageモジュール14
+  # Messageモジュール13
   def game_message9
     puts <<~EOS
     カードの数字は[#{@next_point}]です
@@ -105,17 +103,17 @@ module Message
     EOS
   end
 
-  # Messageモジュール15
+  # Messageモジュール14(win)
   def game_message10
     puts "\n高いのであなたの勝ちです!"
   end
 
-  # Messageモジュール16,21
+  # Messageモジュール15,20
   def money_message4
     puts "[＄#{@paid}]を手に入れました。"
   end
 
-  # Messageモジュール17
+  # Messageモジュール16(lose)
   def game_message11
     puts <<~EOS
 
@@ -126,12 +124,12 @@ module Message
     EOS
   end
 
-  # Messageモジュール18,22
+  # Messageモジュール17,21(draw)
   def game_message12
     puts "\n引き分けです。賭け金が戻されます"
   end
 
-  # Messageモジュール19
+  # Messageモジュール18(lose)
   def game_message13
     puts <<~EOS
 
@@ -142,13 +140,13 @@ module Message
     EOS
   end
 
-  # Messageモジュール20
+  # Messageモジュール19(win)
   def game_message14
     puts "\n低いのであなたの勝ちです"
   end
 
-  # Messageモジュール23
-  def win_message1
+  # Messageモジュール22
+  def next_action_message1
     puts <<~EOS
 
         現在の所持金 : ＄#{@remaining_money}
@@ -158,13 +156,13 @@ module Message
     EOS
   end
 
-  # Messageモジュール24
-  def win_message2
+  # Messageモジュール23
+  def next_action_message2
     puts "ゲームを続けるですね"
   end
 
-  # Messageモジュール25
-  def win_message3
+  # Messageモジュール24
+  def next_action_message3
     puts <<~EOS
     やめるですね。
 
@@ -174,8 +172,8 @@ module Message
     EOS
   end
 
-  # Messageモジュール26
-  def win_message4
+  # Messageモジュール25
+  def next_action_message4
     puts <<~EOS
 
         -------------------------------
@@ -184,7 +182,7 @@ module Message
         EOS
   end
 
-  # Messageモジュール12
+  # Messageモジュール26
   def money_message5
     puts <<~EOS
     所持金が[＄0]になりました。
