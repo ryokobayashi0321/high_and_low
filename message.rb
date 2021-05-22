@@ -94,7 +94,7 @@ module Message
     puts "\n高いのであなたの勝ちです!"
   end
 
-  def get_paid_message
+  def take_paid_message
     puts "[＄#{@paid}]を手に入れました。"
   end
 
@@ -149,7 +149,6 @@ module Message
       ゲームを終了します
     TEXT
   end
-
 
   def game_over_message
     puts <<~TEXT

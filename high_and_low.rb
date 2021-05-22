@@ -15,32 +15,23 @@ class HighAndLow
 
   include Message
 
-  # <Deckの生成>
   def build_deck
     @deck = Deck.new
   end
 
-  # <Masterの生成>
   def build_master
     @master = Master.new
   end
 
-  # <Playerの生成>
   def build_player
     @player = Player.new
   end
 
   def start
-    # Messageモジュール1
     start_message
 
-    # <deck生成>
     build_deck
-
-    # <master生成>
     build_master
-
-    # <playerの生成>
     build_player
 
     # <所持金の表示>
@@ -62,21 +53,19 @@ class HighAndLow
     # <2枚目のカードを引くメソッド>
     @master.draw_second_card(@deck)
 
+    # <highかlowの選択>
     loop do
       high_low_message
-
-      # <highかlowの選択>
       select_num = gets.to_i
       @select_num = select_num
-      if select_num == HIGH_NUMBER
+
+      case select_num
+      when HIGH_NUMBER
         high_message
         break
-
-      elsif select_num == LOW_NUMBER
+      when LOW_NUMBER
         low_message
-        @select_num = select_num
         break
-
       else
         error_ation_message
       end
@@ -98,10 +87,11 @@ class HighAndLow
 
     # <判定の条件分岐>
     loop do
-      if @select_num == HIGH_NUMBER
+      case @select_num
+      when HIGH_NUMBER
         high_judge
         break
-      elsif @select_num == LOW_NUMBER
+      when LOW_NUMBER
         low_judge
         break
       end
@@ -131,11 +121,11 @@ class HighAndLow
 
   # <highを選択した場合>
   def high_judge
-    if  @select_num == HIGH_NUMBER && @second_point > @first_point
+    if @select_num == HIGH_NUMBER && @second_point > @first_point
       win_high_message
       @paid = @bet * MAGNIFICATION_OF_MONEY
       @remaining_money = @player.paid_money(@paid.floor)
-      get_paid_message
+      take_paid_message
       next_action
 
     elsif @select_num == HIGH_NUMBER && @first_point > @second_point
@@ -159,7 +149,7 @@ class HighAndLow
       win_low_message
       @paid = @bet * MAGNIFICATION_OF_MONEY
       @remaining_money = @player.paid_money(@paid.floor)
-      get_paid_message
+      take_paid_message
       next_action
 
     elsif @select_num == LOW_NUMBER && @first_point == @second_point
@@ -196,16 +186,17 @@ class HighAndLow
     end
   end
 
-  # <カードの数字を表示>
+  # # <カードの数字を表示>
   def point(card)
-    if card.number == "A"
-      number = 1
-    elsif card.number == "J"
-      number = 11
-    elsif card.number == "Q"
-      number = 12
-    elsif card.number == "K"
-      number = 13
+    case card.number
+    when "A"
+      1
+    when "J"
+      11
+    when "Q"
+      12
+    when "K"
+      13
     else
       card.number.to_i
     end
