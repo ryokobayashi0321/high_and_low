@@ -1,11 +1,9 @@
-require "./card"
-require "./deck"
-require "./master"
-require "./player"
-require "./message"
-
+require_relative "card"
+require_relative "deck"
+require_relative "master"
+require_relative "player"
+require_relative "message"
 class HighAndLow
-
   HIGH_NUMBER = 1
   LOW_NUMBER = 2
   INITIAL_VALUE = 0
@@ -16,90 +14,6 @@ class HighAndLow
   MINIMUM_AMOUNT_OF_MONEY = 1
 
   include Message
-
-  def start
-
-    # Messageモジュール1
-    start_message
-
-    # <deck生成>
-    build_deck
-
-    # <master生成>
-    build_master
-
-    # <playerの生成>
-    build_player
-
-    # <所持金の表示>、Messageモジュール2
-    money_message1(@player)
-
-    # <賭け金を提示する>
-    present_stake(@player)
-
-    # Messageモジュール5
-    game_message1
-
-    # <1枚目のカード引くメソッド>
-    @master.first_draw_card(@deck)
-
-    # <1枚目のカードを見せる>
-    @master.first_show_card
-
-    # Messageモジュール6
-    game_message2
-
-    # <2枚目のカードを引くメソッド>
-    @master.next_draw_card(@deck)
-
-    # Messageモジュール7
-    game_message3
-
-    while true
-      # <highかlowの選択>
-      select_num = gets.to_i
-      if select_num == HIGH_NUMBER
-        # Messageモジュール8
-        game_message4
-        @select_num = select_num
-        break
-
-      elsif select_num == LOW_NUMBER
-        # Messageモジュール9
-        game_message5
-        @select_num = select_num
-        break
-
-      else
-        # Messageモジュール10
-        game_message6
-      end
-    end
-
-    # Messageモジュール11
-    game_message7
-
-    # <1枚目のカードを見せる>
-    @master.first_show_card
-
-    # <1枚目のカードの数字の呼び出し>
-    first_card_point
-
-    # <2枚目のカードを見せる>
-    @master.next_show_card
-
-    # <2枚目のカードの数字の呼び出し>
-    next_card_point
-
-    # <判定の条件分岐>
-    if @select_num == HIGH_NUMBER
-      high_judge
-    elsif @select_num == LOW_NUMBER
-      low_judge
-    end
-  end
-
-  private
 
   # <Deckの生成>
   def build_deck
@@ -116,69 +30,140 @@ class HighAndLow
     @player = Player.new
   end
 
+  def start
+    # Messageモジュール1
+    start_message
+
+    # <deck生成>
+    build_deck
+
+    # <master生成>
+    build_master
+
+    # <playerの生成>
+    build_player
+
+    # <所持金の表示>
+    input_bet_message(@player)
+
+    # <賭け金を提示する>
+    present_bet(@player)
+
+    drow_card_message
+
+    # <1枚目のカード引くメソッド>
+    @master.draw_first_card(@deck)
+
+    # <1枚目のカードを見せる>
+    @master.show_first_card
+
+    close_card_message
+
+    # <2枚目のカードを引くメソッド>
+    @master.draw_second_card(@deck)
+
+    loop do
+      high_low_message
+
+      # <highかlowの選択>
+      select_num = gets.to_i
+      @select_num = select_num
+      if select_num == HIGH_NUMBER
+        high_message
+        break
+
+      elsif select_num == LOW_NUMBER
+        low_message
+        @select_num = select_num
+        break
+
+      else
+        error_ation_message
+      end
+    end
+
+    open_card_message
+
+    # <1枚目のカードを見せる>
+    @master.show_first_card
+
+    # <1枚目のカードの数字の呼び出し>
+    first_card_point
+
+    # <2枚目のカードを見せる>
+    @master.show_second_card
+
+    # <2枚目のカードの数字の呼び出し>
+    second_card_point
+
+    # <判定の条件分岐>
+    loop do
+      if @select_num == HIGH_NUMBER
+        high_judge
+        break
+      elsif @select_num == LOW_NUMBER
+        low_judge
+        break
+      end
+      next_action
+    end
+  end
+
+  private
+
   # <最初のカードの数字>
   def first_card_point
     @first_point = INITIAL_VALUE
     @master.first_stages.each do |first_card|
       @first_point = point(first_card)
     end
-    # Messageモジュール12
-    game_message8
+    first_card_message
   end
 
   # <次のカードの数字>
-  def next_card_point
-    @next_point = INITIAL_VALUE
-    @master.next_stages.each do |next_card|
-      @next_point = point(next_card)
+  def second_card_point
+    @second_point = INITIAL_VALUE
+    @master.second_stages.each do |second_card|
+      @second_point = point(second_card)
     end
-    # Messageモジュール13
-    game_message9
+    second_card_message
   end
 
   # <highを選択した場合>
   def high_judge
-      if  @select_num == HIGH_NUMBER && @next_point > @first_point
-        # Messageモジュール14(win)
-        game_message10
-        @paid = @bet * MAGNIFICATION_OF_MONEY
-        @remaining_money = @player.paid_money(@paid.floor)
-        # Messageモジュール15
-        money_message4
-        next_action
+    if  @select_num == HIGH_NUMBER && @second_point > @first_point
+      win_high_message
+      @paid = @bet * MAGNIFICATION_OF_MONEY
+      @remaining_money = @player.paid_money(@paid.floor)
+      get_paid_message
+      next_action
 
-      elsif @select_num == HIGH_NUMBER && @first_point > @next_point
-        # Messageモジュール16(lose)
-        game_message11
-        next_action
+    elsif @select_num == HIGH_NUMBER && @first_point > @second_point
+      lose_low_message
+      next_action
 
-      elsif @select_num == HIGH_NUMBER && @first_point == @next_point
-        # Messageモジュール17(draw)
-        game_message12
-        @remaining_money = @player.paid_money(@bet)
-        next_action
-      end
+    elsif @select_num == HIGH_NUMBER && @first_point == @second_point
+      draw_game_message
+      @remaining_money = @player.paid_money(@bet)
+      next_action
+    end
   end
 
   # <lowを選択した場合>
   def low_judge
-    if @select_num == LOW_NUMBER && @next_point > @first_point
-      # Messageモジュール18(lose)
-      game_message13
+    if @select_num == LOW_NUMBER && @second_point > @first_point
+      lose_high_message
       next_action
 
-    elsif @select_num == LOW_NUMBER && @first_point > @next_point
-      # Messageモジュール19(win)
-      game_message14
+    elsif @select_num == LOW_NUMBER && @first_point > @second_point
+      win_low_message
       @paid = @bet * MAGNIFICATION_OF_MONEY
       @remaining_money = @player.paid_money(@paid.floor)
-      # Messageモジュール20
-      money_message4
+      get_paid_message
       next_action
 
-    elsif @select_num == LOW_NUMBER && @first_point == @next_point
-      # Messageモジュール21(draw)
-      game_message12
+    elsif @select_num == LOW_NUMBER && @first_point == @second_point
+      draw_game_message
       @remaining_money = @player.paid_money(@bet)
       next_action
     end
@@ -186,31 +171,27 @@ class HighAndLow
 
   # <次の行動>
   def next_action
-    while true
-      # Messageモジュール22
-      next_action_message1
+    loop do
+      next_action_message
       new_game_num = gets.to_i
 
-      # <所持金¥0の条件分岐>、Messageモジュール26
+      # <所持金¥0の条件分岐>
       if @player.money <= NO_MONEY
-        money_message5
+        game_over_message
         break
 
       elsif new_game_num == SELECT_NEW_GAME
-        # Messageモジュール23
-        next_action_message2
+        continue_game_message
         start
         @new_game_num = new_game_num
         break
 
       elsif new_game_num == SELECT_STOP_GAME
-        # Messageモジュール24
-        next_action_message3
+        stop_game_message
         break
 
       else
-        # Messageモジュール25
-        next_action_message4
+        error_ation_message
       end
     end
   end
@@ -218,31 +199,29 @@ class HighAndLow
   # <カードの数字を表示>
   def point(card)
     if card.number == "A"
-      return number = 1
+      number = 1
     elsif card.number == "J"
-      return number = 11
+      number = 11
     elsif card.number == "Q"
-      return number = 12
+      number = 12
     elsif card.number == "K"
-      return number = 13
+      number = 13
     else
-      return card.number.to_i
+      card.number.to_i
     end
   end
 
-# <賭け金を提示する>
-  def present_stake(player)
-    while true
+  # <賭け金を提示する>
+  def present_bet(player)
+    loop do
       @bet = gets.to_i
       # ¥1〜プレイヤーの所持金のみ入力できる
       if @bet.between?(MINIMUM_AMOUNT_OF_MONEY, player.money)
         @remaining_money = player.bet_money(@bet)
-        # Messageモジュール3
-        money_message2
+        display_bet_message
         break
       else
-        # Messageモジュール4
-        money_message3
+        error_bet_message
       end
     end
   end

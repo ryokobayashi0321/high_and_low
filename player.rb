@@ -1,6 +1,6 @@
 class Player
   # 所持金
-  MONEY_IN_POSSESSION = 100000
+  MONEY_IN_POSSESSION = 100_000
 
   @@money = MONEY_IN_POSSESSION
 

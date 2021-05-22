@@ -1,7 +1,7 @@
 class Deck
- attr_accessor :cards
+  attr_reader :cards
 
- # デッキ生成
+  # デッキ生成
   def initialize
     @cards = []
 
@@ -23,5 +23,4 @@ class Deck
   def draw
     @cards.shift
   end
-
 end
