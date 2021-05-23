@@ -38,7 +38,7 @@ class HighAndLow
     input_bet_message(@player)
 
     # <賭け金を提示する>
-    present_bet(@player)
+    display_bet(@player)
 
     drow_card_message
 
@@ -89,10 +89,10 @@ class HighAndLow
     loop do
       case @select_num
       when HIGH_NUMBER
-        high_judge
+        judge_high
         break
       when LOW_NUMBER
-        low_judge
+        judge_low
         break
       end
       next_action
@@ -120,43 +120,47 @@ class HighAndLow
   end
 
   # <highを選択した場合>
-  def high_judge
+  def judge_high
     if @select_num == HIGH_NUMBER && @second_point > @first_point
       win_high_message
-      @paid = @bet * MAGNIFICATION_OF_MONEY
-      @remaining_money = @player.paid_money(@paid.floor)
+      calculate_win_high
       take_paid_message
-      next_action
-
     elsif @select_num == HIGH_NUMBER && @first_point > @second_point
       lose_low_message
-      next_action
-
     elsif @select_num == HIGH_NUMBER && @first_point == @second_point
       draw_game_message
-      @remaining_money = @player.paid_money(@bet)
-      next_action
+      draw_game
     end
+    next_action
   end
 
   # <lowを選択した場合>
-  def low_judge
+  def judge_low
     if @select_num == LOW_NUMBER && @second_point > @first_point
       lose_high_message
-      next_action
-
     elsif @select_num == LOW_NUMBER && @first_point > @second_point
       win_low_message
-      @paid = @bet * MAGNIFICATION_OF_MONEY
-      @remaining_money = @player.paid_money(@paid.floor)
+      calculate_win_low
       take_paid_message
-      next_action
-
     elsif @select_num == LOW_NUMBER && @first_point == @second_point
       draw_game_message
-      @remaining_money = @player.paid_money(@bet)
-      next_action
+      draw_game
     end
+    next_action
+  end
+
+  def calculate_win_high
+    @paid = @bet * MAGNIFICATION_OF_MONEY
+    @remaining_money = @player.paid_money(@paid.floor)
+  end
+
+  def calculate_win_low
+    @paid = @bet * MAGNIFICATION_OF_MONEY
+    @remaining_money = @player.paid_money(@paid.floor)
+  end
+
+  def draw_game
+    @remaining_money = @player.paid_money(@bet)
   end
 
   # <次の行動>
@@ -203,7 +207,7 @@ class HighAndLow
   end
 
   # <賭け金を提示する>
-  def present_bet(player)
+  def display_bet(player)
     loop do
       @bet = gets.to_i
       # ¥1〜プレイヤーの所持金のみ入力できる

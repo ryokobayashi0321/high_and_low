@@ -4,7 +4,6 @@ class Player
 
   @@money = MONEY_IN_POSSESSION
 
-  # ゲッター処理
   def money
     @@money
   end
