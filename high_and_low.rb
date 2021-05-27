@@ -44,22 +44,7 @@ class HighAndLow
     @master.draw_second_card(@deck)
 
     # <highかlowの選択>
-    loop do
-      high_low_message
-      select_num = gets.to_i
-      @select_num = select_num
-
-      case select_num
-      when HIGH_NUMBER
-        high_message
-        break
-      when LOW_NUMBER
-        low_message
-        break
-      else
-        error_ation_message
-      end
-    end
+    select
 
     open_card_message
 
@@ -76,17 +61,8 @@ class HighAndLow
     second_card_point
 
     # <判定の条件分岐>
-    loop do
-      case @select_num
-      when HIGH_NUMBER
-        judge_high
-        break
-      when LOW_NUMBER
-        judge_low
-        break
-      end
-      next_action
-    end
+    judge
+
   end
 
   private
@@ -107,6 +83,41 @@ class HighAndLow
       @second_point = point(second_card)
     end
     second_card_message
+  end
+
+  def select
+  # <highかlowの選択>
+    loop do
+      high_low_message
+      select_num = gets.to_i
+      @select_num = select_num
+
+      case select_num
+      when HIGH_NUMBER
+        high_message
+        break
+      when LOW_NUMBER
+        low_message
+        break
+      else
+        error_ation_message
+      end
+    end
+  end
+
+  def judge
+    # <判定の条件分岐>
+    loop do
+      case @select_num
+      when HIGH_NUMBER
+        judge_high
+        break
+      when LOW_NUMBER
+        judge_low
+        break
+      end
+      next_action
+    end
   end
 
   # <highを選択した場合>
