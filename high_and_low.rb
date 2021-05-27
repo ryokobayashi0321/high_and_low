@@ -15,24 +15,14 @@ class HighAndLow
 
   include Message
 
-  def build_deck
-    @deck = Deck.new
-  end
-
-  def build_master
-    @master = Master.new
-  end
-
-  def build_player
-    @player = Player.new
+  def initialize(master, player, deck)
+    @master = master
+    @player = player
+    @deck = deck
   end
 
   def start
     start_message
-
-    build_deck
-    build_master
-    build_player
 
     # <所持金の表示>
     input_bet_message(@player)
