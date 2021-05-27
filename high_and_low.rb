@@ -24,6 +24,9 @@ class HighAndLow
   def start
     start_message
 
+    # ステージ(カードの置き場)をリセット
+    @master.reset_stages
+
     # <所持金の表示>
     input_bet_message(@player)
 
@@ -36,9 +39,7 @@ class HighAndLow
     @master.draw_first_card(@deck)
 
     # <1枚目のカードを見せる>
-    @master.show_first_card
-
-    close_card_message
+    show_first_card_message
 
     # <2枚目のカードを引くメソッド>
     @master.draw_second_card(@deck)
@@ -48,21 +49,14 @@ class HighAndLow
 
     open_card_message
 
-    # <1枚目のカードを見せる>
-    @master.show_first_card
-
     # <1枚目のカードの数字の呼び出し>
     first_card_point
-
-    # <2枚目のカードを見せる>
-    @master.show_second_card
 
     # <2枚目のカードの数字の呼び出し>
     second_card_point
 
     # <判定の条件分岐>
     judge
-
   end
 
   private
@@ -73,7 +67,7 @@ class HighAndLow
     @master.first_stages.each do |first_card|
       @first_point = point(first_card)
     end
-    first_card_message
+    first_number_message
   end
 
   # <次のカードの数字>
@@ -82,11 +76,11 @@ class HighAndLow
     @master.second_stages.each do |second_card|
       @second_point = point(second_card)
     end
-    second_card_message
+    second_number_message
   end
 
   def select
-  # <highかlowの選択>
+    # <highかlowの選択>
     loop do
       high_low_message
       select_num = gets.to_i

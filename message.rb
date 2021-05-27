@@ -43,8 +43,10 @@ module Message
     TEXT
   end
 
-  def close_card_message
+  def show_first_card_message
     puts <<~TEXT
+      ---------stage-----------
+      1枚目 : #{@master.first_stages}
       2枚目 : 伏せている
       ---------stage-----------
     TEXT
@@ -76,16 +78,27 @@ module Message
   end
 
   def open_card_message
-    puts "\nそれではカードをめくります\n"
-  end
-
-  def first_card_message
-    puts "カードの数字は[#{@first_point}]です"
-  end
-
-  def second_card_message
     puts <<~TEXT
-      カードの数字は[#{@second_point}]です
+
+      それではカードをめくります
+
+    TEXT
+  end
+
+  def first_number_message
+    puts <<~TEXT
+    ---------stage-----------
+    1枚目 : #{@master.first_stages}
+    1枚目のカードの数字は[#{@first_point}]です
+
+    そして
+    TEXT
+  end
+
+  def second_number_message
+    puts <<~TEXT
+
+      2枚目のカードの数字は[#{@second_point}]です
       ---------stage-----------
     TEXT
   end

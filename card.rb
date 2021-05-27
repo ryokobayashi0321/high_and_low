@@ -11,5 +11,4 @@ class Card
   def show
     return "#{@mark}の#{@number}"
   end
-
 end
