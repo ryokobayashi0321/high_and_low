@@ -20,8 +20,8 @@ module Message
   def display_bet_message
     puts <<~TEXT
       *=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*
-      賭け金 : ＄#{@bet}
-      残金 : ＄#{@remaining_money}
+      賭け金 : ＄#{bet}
+      残金 : ＄#{remaining_money}
       *=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*
     TEXT
   end
@@ -43,10 +43,10 @@ module Message
     TEXT
   end
 
-  def show_first_card_message
+  def show_first_card_message(master)
     puts <<~TEXT
       ---------stage-----------
-      1枚目 : #{@master.first_stages}
+      1枚目 : #{master.first_stages}
       2枚目 : 伏せている
       ---------stage-----------
     TEXT
@@ -85,20 +85,20 @@ module Message
     TEXT
   end
 
-  def first_number_message
+  def first_number_message(master)
     puts <<~TEXT
-    ---------stage-----------
-    1枚目 : #{@master.first_stages}
-    1枚目のカードの数字は[#{@first_point}]です
+      ---------stage-----------
+      1枚目 : #{master.first_stages}
+      1枚目のカードの数字は[#{first_point}]です
 
-    そして
+      そして
     TEXT
   end
 
   def second_number_message
     puts <<~TEXT
 
-      2枚目のカードの数字は[#{@second_point}]です
+      2枚目のカードの数字は[#{second_point}]です
       ---------stage-----------
     TEXT
   end
@@ -108,14 +108,14 @@ module Message
   end
 
   def take_paid_message
-    puts "[＄#{@paid}]を手に入れました。"
+    puts "[＄#{paid}]を手に入れました。"
   end
 
   def lose_low_message
     puts <<~TEXT
 
       低いのであなたの負けです
-      [＄#{@bet}]を失いました
+      [＄#{bet}]を失いました
 
       ゲームを続けますか？
     TEXT
@@ -129,7 +129,7 @@ module Message
     puts <<~TEXT
 
       高いのであなたの負けです
-      [＄#{@bet}]を失いました
+      [＄#{bet}]を失いました
 
       ゲームを続けますか？
     TEXT
@@ -142,7 +142,7 @@ module Message
   def next_action_message
     puts <<~TEXT
 
-      現在の所持金 : ＄#{@remaining_money}
+      現在の所持金 : ＄#{remaining_money}
       ---------------------------------
 
       1.ゲームを続ける 2.やめる
@@ -157,7 +157,7 @@ module Message
     puts <<~TEXT
       やめるですね。
 
-      あなたは[＄#{@remaining_money}]を手に入れました。
+      あなたは[＄#{remaining_money}]を手に入れました。
 
       ゲームを終了します
     TEXT

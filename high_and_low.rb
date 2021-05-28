@@ -4,6 +4,8 @@ require_relative "master"
 require_relative "player"
 require_relative "message"
 class HighAndLow
+  attr_reader :bet, :remaining_money, :paid, :first_point, :second_point
+
   HIGH_NUMBER = 1
   LOW_NUMBER = 2
   INITIAL_VALUE = 0
@@ -39,7 +41,7 @@ class HighAndLow
     @master.draw_first_card(@deck)
 
     # <1枚目のカードを見せる>
-    show_first_card_message
+    show_first_card_message(@master)
 
     # <2枚目のカードを引くメソッド>
     @master.draw_second_card(@deck)
@@ -67,7 +69,7 @@ class HighAndLow
     @master.first_stages.each do |first_card|
       @first_point = point(first_card)
     end
-    first_number_message
+    first_number_message(@master)
   end
 
   # <次のカードの数字>
@@ -86,7 +88,7 @@ class HighAndLow
       select_num = gets.to_i
       @select_num = select_num
 
-      case select_num
+      case @select_num
       when HIGH_NUMBER
         high_message
         break
@@ -168,17 +170,14 @@ class HighAndLow
       if @player.money <= NO_MONEY
         game_over_message
         break
-
       elsif new_game_num == SELECT_NEW_GAME
         continue_game_message
         start
         @new_game_num = new_game_num
         break
-
       elsif new_game_num == SELECT_STOP_GAME
         stop_game_message
         break
-
       else
         error_ation_message
       end
