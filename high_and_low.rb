@@ -126,7 +126,7 @@ class HighAndLow
       lose_low_message
     elsif @select_num == HIGH_NUMBER && @first_point == @second_point
       draw_game_message
-      draw_game
+      calculate_draw_game
     end
     next_action
   end
@@ -156,7 +156,7 @@ class HighAndLow
     @remaining_money = @player.paid_money(@paid.floor)
   end
 
-  def draw_game
+  def calculate_draw_game
     @remaining_money = @player.paid_money(@bet)
   end
 

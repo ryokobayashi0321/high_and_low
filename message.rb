@@ -44,12 +44,14 @@ module Message
   end
 
   def show_first_card_message(master)
-    puts <<~TEXT
-      ---------stage-----------
-      1枚目 : #{master.first_stages}
-      2枚目 : 伏せている
-      ---------stage-----------
-    TEXT
+    master.first_stages.each.with_index(1) do |card, i|
+      puts <<~TEXT
+        ---------stage-----------
+        #{i}枚目 : #{card.card_info}
+        2枚目 : 伏せている
+        ---------stage-----------
+      TEXT
+    end
   end
 
   def high_low_message
@@ -86,13 +88,15 @@ module Message
   end
 
   def first_number_message(master)
-    puts <<~TEXT
-      ---------stage-----------
-      1枚目 : #{master.first_stages}
-      1枚目のカードの数字は[#{first_point}]です
+    master.first_stages.each.with_index(1) do |card, i|
+      puts <<~TEXT
+        ---------stage-----------
+        #{i}枚目 : #{card.card_info}
+        1枚目のカードの数字は[#{first_point}]です
 
-      そして
-    TEXT
+        そして
+      TEXT
+    end
   end
 
   def second_number_message
