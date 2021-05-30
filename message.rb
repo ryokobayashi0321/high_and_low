@@ -57,7 +57,9 @@ module Message
   def high_low_message
     puts <<~TEXT
 
-      highかlowを決めてください(数値で入力)
+      2枚目のカード値が
+      'high' or 'low' かを当ててください(数値で入力)
+
       1.high 2.low
     TEXT
   end
@@ -92,17 +94,17 @@ module Message
       puts <<~TEXT
         ---------stage-----------
         #{i}枚目 : #{card.card_info}
-        1枚目のカードの数字は[#{first_point}]です
+        1枚目のカードの数字は[#{master.first_card_point}]です
 
         そして
       TEXT
     end
   end
 
-  def second_number_message
+  def second_number_message(master)
     puts <<~TEXT
 
-      2枚目のカードの数字は[#{second_point}]です
+      2枚目のカードの数字は[#{master.second_card_point}]です
       ---------stage-----------
     TEXT
   end

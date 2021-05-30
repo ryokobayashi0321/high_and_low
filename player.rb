@@ -3,7 +3,7 @@ class Player
 
   # 所持金
   MONEY_IN_POSSESSION = 100_000
-  # binding.pry
+
   def initialize
     @money = MONEY_IN_POSSESSION
   end

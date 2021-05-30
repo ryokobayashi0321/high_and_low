@@ -1,10 +1,27 @@
 class Card
-  attr_accessor :mark, :number
+  attr_reader :mark, :number, :point
+
+  @@card_point = {
+    "A" => 1,
+    "2" => 2,
+    "3" => 3,
+    "4" => 4,
+    "5" => 5,
+    "6" => 6,
+    "7" => 7,
+    "8" => 8,
+    "9" => 9,
+    "10" => 10,
+    "J" => 11,
+    "Q" => 12,
+    "K" => 13
+  }
 
   # トランプ生成
   def initialize(mark, number)
     @mark = mark
     @number = number
+    @point = @@card_point.fetch(@number)
   end
 
   # トランプの種類を提示
