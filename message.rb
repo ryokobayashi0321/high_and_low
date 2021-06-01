@@ -9,7 +9,7 @@ module Message
     TEXT
   end
 
-  def input_bet_message(player)
+  def give_bet_message(player)
     puts <<~TEXT
 
       現在の所持金は[＄#{player.money}]です
@@ -17,7 +17,7 @@ module Message
     TEXT
   end
 
-  def display_bet_message
+  def disp_bet_message
     puts <<~TEXT
       *=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*
       賭け金 : ＄#{bet}
@@ -43,7 +43,7 @@ module Message
     TEXT
   end
 
-  def show_first_card_message(master)
+  def disp_first_card_message(master)
     master.first_stages.each.with_index(1) do |card, i|
       puts <<~TEXT
         ---------stage-----------

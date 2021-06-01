@@ -29,16 +29,16 @@ class HighAndLow
     @master.reset_stages
 
     # <所持金の表示>
-    input_bet_message(@player)
+    give_bet_message(@player)
 
     # <賭け金を提示する>
-    display_bet(@player)
+    disp_bet(@player)
 
     drow_card_message
 
     @master.draw_first_card(@deck)
 
-    show_first_card_message(@master)
+    disp_first_card_message(@master)
 
     @master.draw_second_card(@deck)
 
@@ -61,8 +61,7 @@ class HighAndLow
   def select
     loop do
       high_low_message
-      select_num = gets.to_i
-      @select_num = select_num
+      @select_num = gets.to_i
 
       case @select_num
       when HIGH_NUMBER
@@ -113,7 +112,7 @@ class HighAndLow
       lose_high_message
     elsif @select_num == LOW_NUMBER && @master.first_card_point > @master.second_card_point
       win_low_message
-      calculate_win_low
+      calculate_win
       take_paid_message
     elsif @select_num == LOW_NUMBER && @master.first_card_point == @master.second_card_point
       draw_game_message
@@ -122,7 +121,7 @@ class HighAndLow
     next_action
   end
 
-  def calculate_win_high
+  def calculate_win
     @paid = @bet * MAGNIFICATION_OF_MONEY
     @remaining_money = @player.paid_money(@paid.floor)
   end
@@ -161,13 +160,13 @@ class HighAndLow
   end
 
   # <賭け金を提示する>
-  def display_bet(player)
+  def disp_bet(player)
     loop do
       @bet = gets.to_i
       # ¥1〜プレイヤーの所持金のみ入力できる
       if @bet.between?(MINIMUM_AMOUNT_OF_MONEY, player.money)
         @remaining_money = player.bet_money(@bet)
-        display_bet_message
+        disp_bet_message
         break
       else
         error_bet_message

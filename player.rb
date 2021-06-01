@@ -9,8 +9,8 @@ class Player
   end
 
   # お金を賭ける
-  def bet_money(money)
-    @money -= money
+  def bet_money(bet)
+    @money -= bet
   end
 
   # お金の移動
