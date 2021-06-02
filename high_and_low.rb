@@ -4,7 +4,7 @@ require_relative "master"
 require_relative "player"
 require_relative "message"
 class HighAndLow
-  attr_reader :bet, :remaining_money, :paid
+  attr_reader :bet, :remaining_money, :paid, :first_card, :second_card
 
   HIGH_NUMBER = 1
   LOW_NUMBER = 2
@@ -25,9 +25,6 @@ class HighAndLow
   def start
     start_message
 
-    # ステージ(カードの置き場)をリセット
-    @master.reset_stages
-
     # <所持金の表示>
     give_bet_message(@player)
 
@@ -36,26 +33,44 @@ class HighAndLow
 
     drow_card_message
 
-    @master.draw_first_card(@deck)
+    two_cards
 
-    disp_first_card_message(@master)
 
-    @master.draw_second_card(@deck)
+    disp_card_message
+
 
     # <highかlowの選択>
     select
 
     open_card_message
 
-    first_number_message(@master)
-
-    second_number_message(@master)
+    number_message
 
     # <判定の条件分岐>
     judge
   end
 
   private
+
+  def two_cards
+    cards = @master.draw_card(@deck)
+      @first_card = cards[0]
+      @second_card = cards[1]
+  end
+
+  # <最初のカードの数字>
+  def first_card_point
+    @f_point = []
+    @f_point << @first_card.instance_variable_get(:@point)
+    @fist_point = @f_point.find { |i| i.integer? }
+  end
+
+  # # <次のカードの数字>
+  def second_card_point
+    @s_point = []
+    @s_point << @second_card.instance_variable_get(:@point)
+    @second_point = @s_point.find { |i| i.integer? }
+  end
 
   # <highかlowの選択>
   def select
@@ -93,13 +108,13 @@ class HighAndLow
 
   # <highを選択した場合>
   def judge_high
-    if @select_num == HIGH_NUMBER && @master.second_card_point > @master.first_card_point
+    if @select_num == HIGH_NUMBER && second_card_point > first_card_point
       win_high_message
       calculate_win_high
       take_paid_message
-    elsif @select_num == HIGH_NUMBER && @master.first_card_point > @master.second_card_point
+    elsif @select_num == HIGH_NUMBER && first_card_point > second_card_point
       lose_low_message
-    elsif @select_num == HIGH_NUMBER && @master.first_card_point == @master.second_card_point
+    elsif @select_num == HIGH_NUMBER && first_card_point == second_card_point
       draw_game_message
       calculate_draw_game
     end
@@ -108,13 +123,13 @@ class HighAndLow
 
   # <lowを選択した場合>
   def judge_low
-    if @select_num == LOW_NUMBER && @master.second_card_point > @master.first_card_point
+    if @select_num == LOW_NUMBER && second_card_point > first_card_point
       lose_high_message
-    elsif @select_num == LOW_NUMBER && @master.first_card_point > @master.second_card_point
+    elsif @select_num == LOW_NUMBER && first_card_point > second_card_point
       win_low_message
       calculate_win
       take_paid_message
-    elsif @select_num == LOW_NUMBER && @master.first_card_point == @master.second_card_point
+    elsif @select_num == LOW_NUMBER && first_card_point == second_card_point
       draw_game_message
       calculate_draw_game
     end

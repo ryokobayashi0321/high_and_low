@@ -21,6 +21,6 @@ class Deck
 
   # カードの取り出し
   def draw
-    @cards.shift
+    @cards.shift(2)
   end
 end
