@@ -10,7 +10,6 @@ class Deck
 
     mk.each do |mark|
       num.each do |number|
-        # card生成
         card = Card.new(mark, number)
         @cards << card
       end

@@ -22,35 +22,24 @@ class HighAndLow
   end
 
   def start
-
     start_message
 
     loop do
       @deck = Deck.new
 
-      # <所持金の表示>
       give_bet_message(@player)
-
-      # <賭け金を提示する>
       disp_bet(@player)
 
       drow_card_message
-
-      two_cards
-
+      disp_two_cards
       disp_card_message
 
-      # <highかlowの選択>
       select_ation
-
       open_card_message
-
       number_message
 
-      # <判定の条件分岐>
       judge
-
-      calculate
+      calculate_bet
 
       next_action
     end
@@ -73,7 +62,8 @@ class HighAndLow
     end
   end
 
-  def two_cards
+  # <2枚のカードを提示する>
+  def disp_two_cards
     cards = @master.draw_card(@deck)
       @first_card = cards[0]
       @second_card = cards[1]
@@ -107,7 +97,7 @@ class HighAndLow
         low_message
         break
       else
-        error_ation_message
+        error_info_message
       end
     end
   end
@@ -128,33 +118,35 @@ class HighAndLow
 
   # <highを選択した場合>
   def judge_high
-    if @win =@select_num == HIGH_NUMBER && second_card_point > first_card_point
+    if (@win = @select_num == HIGH_NUMBER && second_card_point > first_card_point)
       win_high_message
-    elsif @lose = @select_num == HIGH_NUMBER && first_card_point > second_card_point
-      lose_low_message
-    elsif @draw = @select_num == HIGH_NUMBER && first_card_point == second_card_point
+    elsif (@lose = @select_num == HIGH_NUMBER && first_card_point > second_card_point)
+      lose_high_message
+    elsif (@draw = @select_num == HIGH_NUMBER && first_card_point == second_card_point)
       draw_game_message
     end
   end
 
   # <lowを選択した場合>
   def judge_low
-    if @lose = @select_num == LOW_NUMBER && second_card_point > first_card_point
-      lose_high_message
-    elsif @win = @select_num == LOW_NUMBER && first_card_point > second_card_point
+    if (@win = @select_num == LOW_NUMBER && first_card_point > second_card_point)
       win_low_message
-    elsif @draw = @select_num == LOW_NUMBER && first_card_point == second_card_point
+    elsif (@lose = @select_num == LOW_NUMBER && second_card_point > first_card_point)
+      lose_low_message
+    elsif (@draw = @select_num == LOW_NUMBER && first_card_point == second_card_point)
       draw_game_message
     end
   end
 
-  def calculate
+  # <賭け金の計算>
+  def calculate_bet
     if @win
       calculate_win_game
+      take_paid_message
+    elsif @lose
+      calculate_lose_game
     elsif @draw
       calculate_draw_game
-    else
-      @lose
     end
       if @player.money <= NO_MONEY
         game_over_message
@@ -162,32 +154,38 @@ class HighAndLow
       end
   end
 
+  # <勝利時の計算>
   def calculate_win_game
     @paid = @bet * MAGNIFICATION_OF_MONEY
-    @remaining_money = @player.paid_money(@paid.floor)
-    take_paid_message
+    @remaining_money = @player.add_money(@paid.floor)
   end
 
+  # 敗北時の計算
+  def calculate_lose_game
+    @paid = @bet
+    @remaining_money = @player.bet_money(@paid.floor)
+  end
+
+  # <引き分け時の計算>
   def calculate_draw_game
-    @remaining_money = @player.paid_money(@bet)
+    @remaining_money = @player.add_money(@bet)
   end
 
   # <次の行動>
   def next_action
     loop do
       next_action_message
-      new_game_num = gets.to_i
+      @new_game_num = gets.to_i
 
-      # <所持金¥0の条件分岐>
-      if new_game_num == SELECT_NEW_GAME
+      case @new_game_num
+      when SELECT_NEW_GAME
         continue_game_message
-        @new_game_num = new_game_num
         break
-      elsif new_game_num == SELECT_STOP_GAME
+      when SELECT_STOP_GAME
         stop_game_message
         exit
       else
-        error_ation_message
+        error_info_message
       end
     end
   end

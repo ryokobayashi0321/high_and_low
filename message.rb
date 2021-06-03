@@ -45,10 +45,10 @@ module Message
 
   def disp_card_message
     puts <<~TEXT
-      ---------stage-----------
+      -------------cards--------------
       1枚目 : #{first_card.card_info}
       2枚目 : 伏せている
-      ---------stage-----------
+      -------------cards--------------
     TEXT
   end
 
@@ -56,7 +56,7 @@ module Message
     puts <<~TEXT
 
       2枚目のカード値が
-      'high' or 'low' かを当ててください(数値で入力)
+      'high' or 'low' であるかを当ててください(数値で入力)
 
       1.high 2.low
     TEXT
@@ -70,7 +70,7 @@ module Message
     puts "lowですね"
   end
 
-  def error_ation_message
+  def error_info_message
     puts <<~TEXT
 
       --------------------------------
@@ -89,29 +89,40 @@ module Message
 
   def number_message
     puts <<~TEXT
-      ---------stage-----------
+      ----------------cards---------------------
       1枚目 :#{first_card.card_info}
       1枚目のカードの数字は[#{first_card_point}]です
 
       そして
 
       2枚目のカードの数字は[#{second_card_point}]です
-      ---------stage-----------
+      ----------------cards---------------------
     TEXT
   end
 
+  # <high分岐>
   def win_high_message
-    puts "\n高いのであなたの勝ちです!"
+    puts "\n2枚目の数字が'高い'ので、highを選んだあなたの勝ちです!"
   end
 
-  def take_paid_message
-    puts "[＄#{paid}]を手に入れました。"
+  def lose_high_message
+    puts <<~TEXT
+
+      2枚目の数字が'低い'ので、highを選んだあなたの負けです
+      [＄#{bet}]を失いました
+
+    TEXT
+  end
+
+  # <low分岐>
+  def win_low_message
+    puts "\n2枚目の数字が'低い'ので、lowを選んだあなたの勝ちです"
   end
 
   def lose_low_message
     puts <<~TEXT
 
-      低いのであなたの負けです
+      2枚目の数字が'高い'ので、lowを選んだあなたの負けです
       [＄#{bet}]を失いました
 
     TEXT
@@ -121,17 +132,12 @@ module Message
     puts "\n引き分けです。賭け金が戻されます"
   end
 
-  def lose_high_message
+  def take_paid_message
     puts <<~TEXT
 
-      高いのであなたの負けです
-      [＄#{bet}]を失いました
-
+      賭け金が2倍になります！！
+      [＄#{paid}]を手に入れました。
     TEXT
-  end
-
-  def win_low_message
-    puts "\n低いのであなたの勝ちです"
   end
 
   def next_action_message
@@ -148,9 +154,9 @@ module Message
 
   def continue_game_message
     puts <<~TEXT
-    ゲームを続けるですね!!
+      ゲームを続けるですね!!
 
-
+          ~~NEXT GAME~~
     TEXT
   end
 
