@@ -23,29 +23,36 @@ class HighAndLow
   end
 
   def start
+
     start_message
 
-    # <所持金の表示>
-    give_bet_message(@player)
+    loop do
+      # <所持金の表示>
+      give_bet_message(@player)
 
-    # <賭け金を提示する>
-    disp_bet(@player)
+      # <賭け金を提示する>
+      disp_bet(@player)
 
-    drow_card_message
+      drow_card_message
 
-    two_cards
+      two_cards
 
-    disp_card_message
+      disp_card_message
 
-    # <highかlowの選択>
-    select
+      # <highかlowの選択>
+      select_ation
 
-    open_card_message
+      open_card_message
 
-    number_message
+      number_message
 
-    # <判定の条件分岐>
-    judge
+      # <判定の条件分岐>
+      judge
+
+      calculate
+
+      next_action
+    end
   end
 
   private
@@ -71,7 +78,7 @@ class HighAndLow
   end
 
   # <highかlowの選択>
-  def select
+  def select_ation
     loop do
       high_low_message
       @select_num = gets.to_i
@@ -100,23 +107,19 @@ class HighAndLow
         judge_low
         break
       end
-      next_action
     end
   end
 
   # <highを選択した場合>
   def judge_high
-    if @select_num == HIGH_NUMBER && second_card_point > first_card_point
+    if @win =@select_num == HIGH_NUMBER && second_card_point > first_card_point
       win_high_message
-      calculate_win_high
       take_paid_message
-    elsif @select_num == HIGH_NUMBER && first_card_point > second_card_point
+    elsif @lose = @select_num == HIGH_NUMBER && first_card_point > second_card_point
       lose_low_message
-    elsif @select_num == HIGH_NUMBER && first_card_point == second_card_point
+    elsif @draw = @select_num == HIGH_NUMBER && first_card_point == second_card_point
       draw_game_message
-      calculate_draw_game
     end
-    next_action
   end
 
   # <lowを選択した場合>
@@ -125,15 +128,11 @@ class HighAndLow
       lose_high_message
     elsif @win = @select_num == LOW_NUMBER && first_card_point > second_card_point
       win_low_message
-      calculate_win
       take_paid_message
     elsif @draw = @select_num == LOW_NUMBER && first_card_point == second_card_point
       draw_game_message
-      calculate_draw_game
     end
-    next_action
   end
-
 
   def calculate
     if @win
@@ -144,6 +143,7 @@ class HighAndLow
       calculate_draw_game
     end
   end
+
   def calculate_win
     @paid = @bet * MAGNIFICATION_OF_MONEY
     @remaining_money = @player.paid_money(@paid.floor)
@@ -170,12 +170,11 @@ class HighAndLow
         break
       elsif new_game_num == SELECT_NEW_GAME
         continue_game_message
-        start
         @new_game_num = new_game_num
         break
       elsif new_game_num == SELECT_STOP_GAME
         stop_game_message
-        break
+        exit
       else
         error_ation_message
       end

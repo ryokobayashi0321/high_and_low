@@ -44,12 +44,12 @@ module Message
   end
 
   def disp_card_message
-      puts <<~TEXT
-        ---------stage-----------
-        1枚目 : #{first_card.card_info}
-        2枚目 : 伏せている
-        ---------stage-----------
-      TEXT
+    puts <<~TEXT
+      ---------stage-----------
+      1枚目 : #{first_card.card_info}
+      2枚目 : 伏せている
+      ---------stage-----------
+    TEXT
   end
 
   def high_low_message
@@ -88,12 +88,12 @@ module Message
   end
 
   def number_message
-      puts <<~TEXT
-        ---------stage-----------
-        1枚目 :#{first_card.card_info}
-        1枚目のカードの数字は[#{first_card_point}]です
+    puts <<~TEXT
+      ---------stage-----------
+      1枚目 :#{first_card.card_info}
+      1枚目のカードの数字は[#{first_card_point}]です
 
-        そして
+      そして
 
       2枚目のカードの数字は[#{second_card_point}]です
       ---------stage-----------
