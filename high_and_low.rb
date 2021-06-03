@@ -35,9 +35,7 @@ class HighAndLow
 
     two_cards
 
-
     disp_card_message
-
 
     # <highかlowの選択>
     select
@@ -123,25 +121,35 @@ class HighAndLow
 
   # <lowを選択した場合>
   def judge_low
-    if @select_num == LOW_NUMBER && second_card_point > first_card_point
+    if @lose = @select_num == LOW_NUMBER && second_card_point > first_card_point
       lose_high_message
-    elsif @select_num == LOW_NUMBER && first_card_point > second_card_point
+    elsif @win = @select_num == LOW_NUMBER && first_card_point > second_card_point
       win_low_message
       calculate_win
       take_paid_message
-    elsif @select_num == LOW_NUMBER && first_card_point == second_card_point
+    elsif @draw = @select_num == LOW_NUMBER && first_card_point == second_card_point
       draw_game_message
       calculate_draw_game
     end
     next_action
   end
 
+
+  def calculate
+    if @win
+      calculate_win
+    elsif @lose
+      calculate_low
+    elsif @draw
+      calculate_draw_game
+    end
+  end
   def calculate_win
     @paid = @bet * MAGNIFICATION_OF_MONEY
     @remaining_money = @player.paid_money(@paid.floor)
   end
 
-  def calculate_win_low
+  def calculate_low
     @paid = @bet * MAGNIFICATION_OF_MONEY
     @remaining_money = @player.paid_money(@paid.floor)
   end

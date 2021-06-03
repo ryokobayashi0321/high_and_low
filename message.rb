@@ -46,7 +46,7 @@ module Message
   def disp_card_message
       puts <<~TEXT
         ---------stage-----------
-        1枚目 :
+        1枚目 : #{first_card.card_info}
         2枚目 : 伏せている
         ---------stage-----------
       TEXT
@@ -90,7 +90,7 @@ module Message
   def number_message
       puts <<~TEXT
         ---------stage-----------
-        1枚目 :
+        1枚目 :#{first_card.card_info}
         1枚目のカードの数字は[#{first_card_point}]です
 
         そして
