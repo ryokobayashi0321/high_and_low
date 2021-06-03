@@ -16,10 +16,9 @@ class HighAndLow
 
   include Message
 
-  def initialize(master, player, deck)
+  def initialize(master, player)
     @master = master
     @player = player
-    @deck = deck
   end
 
   def start
@@ -27,6 +26,8 @@ class HighAndLow
     start_message
 
     loop do
+      @deck = Deck.new
+
       # <所持金の表示>
       give_bet_message(@player)
 
@@ -56,6 +57,21 @@ class HighAndLow
   end
 
   private
+
+  # <賭け金を提示する>
+  def disp_bet(player)
+    loop do
+      @bet = gets.to_i
+      # ¥1〜プレイヤーの所持金のみ入力できる
+      if @bet.between?(MINIMUM_AMOUNT_OF_MONEY, player.money)
+        @remaining_money = player.bet_money(@bet)
+        disp_bet_message
+        break
+      else
+        error_bet_message
+      end
+    end
+  end
 
   def two_cards
     cards = @master.draw_card(@deck)
@@ -114,7 +130,6 @@ class HighAndLow
   def judge_high
     if @win =@select_num == HIGH_NUMBER && second_card_point > first_card_point
       win_high_message
-      take_paid_message
     elsif @lose = @select_num == HIGH_NUMBER && first_card_point > second_card_point
       lose_low_message
     elsif @draw = @select_num == HIGH_NUMBER && first_card_point == second_card_point
@@ -128,7 +143,6 @@ class HighAndLow
       lose_high_message
     elsif @win = @select_num == LOW_NUMBER && first_card_point > second_card_point
       win_low_message
-      take_paid_message
     elsif @draw = @select_num == LOW_NUMBER && first_card_point == second_card_point
       draw_game_message
     end
@@ -136,22 +150,22 @@ class HighAndLow
 
   def calculate
     if @win
-      calculate_win
-    elsif @lose
-      calculate_low
+      calculate_win_game
     elsif @draw
       calculate_draw_game
+    else
+      @lose
     end
+      if @player.money <= NO_MONEY
+        game_over_message
+        exit
+      end
   end
 
-  def calculate_win
+  def calculate_win_game
     @paid = @bet * MAGNIFICATION_OF_MONEY
     @remaining_money = @player.paid_money(@paid.floor)
-  end
-
-  def calculate_low
-    @paid = @bet * MAGNIFICATION_OF_MONEY
-    @remaining_money = @player.paid_money(@paid.floor)
+    take_paid_message
   end
 
   def calculate_draw_game
@@ -165,10 +179,7 @@ class HighAndLow
       new_game_num = gets.to_i
 
       # <所持金¥0の条件分岐>
-      if @player.money <= NO_MONEY
-        game_over_message
-        break
-      elsif new_game_num == SELECT_NEW_GAME
+      if new_game_num == SELECT_NEW_GAME
         continue_game_message
         @new_game_num = new_game_num
         break
@@ -177,21 +188,6 @@ class HighAndLow
         exit
       else
         error_ation_message
-      end
-    end
-  end
-
-  # <賭け金を提示する>
-  def disp_bet(player)
-    loop do
-      @bet = gets.to_i
-      # ¥1〜プレイヤーの所持金のみ入力できる
-      if @bet.between?(MINIMUM_AMOUNT_OF_MONEY, player.money)
-        @remaining_money = player.bet_money(@bet)
-        disp_bet_message
-        break
-      else
-        error_bet_message
       end
     end
   end

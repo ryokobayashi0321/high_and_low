@@ -14,7 +14,7 @@ class Player
   end
 
   # お金の移動
-  def paid_money(money)
-    @money += money
+  def paid_money(bet)
+    @money += bet
   end
 end

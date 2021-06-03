@@ -114,7 +114,6 @@ module Message
       低いのであなたの負けです
       [＄#{bet}]を失いました
 
-      ゲームを続けますか？
     TEXT
   end
 
@@ -128,7 +127,6 @@ module Message
       高いのであなたの負けです
       [＄#{bet}]を失いました
 
-      ゲームを続けますか？
     TEXT
   end
 
@@ -139,6 +137,8 @@ module Message
   def next_action_message
     puts <<~TEXT
 
+      ゲームを続けますか？
+
       現在の所持金 : ＄#{remaining_money}
       ---------------------------------
 
@@ -147,7 +147,11 @@ module Message
   end
 
   def continue_game_message
-    puts "ゲームを続けるですね"
+    puts <<~TEXT
+    ゲームを続けるですね!!
+
+
+    TEXT
   end
 
   def stop_game_message
